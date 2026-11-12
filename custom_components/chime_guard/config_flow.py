@@ -50,7 +50,6 @@ def _auto_discover_speakers(hass) -> dict[str, str]:
             if not st:
                 continue
             attrs = st.attributes or {}
-            # Cast indicators
             if "cast_info" in attrs or "app_name" in attrs or "is_volume_muted" in attrs:
                 cast_entities[eid] = attrs.get("friendly_name", eid)
 
@@ -113,6 +112,24 @@ class ChimeGuardConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(step_id="user", data_schema=schema)
 
+    async def async_step_import(
+        self, import_config: dict[str, Any]
+    ) -> config_entries.ConfigFlowResult:
+        """Handle import from configuration.yaml."""
+        if self._async_current_entries():
+            return self.async_abort(reason="single_instance_allowed")
+
+        discovered = _auto_discover_speakers(self.hass)
+        data = {
+            CONF_SPEAKER_MAPPINGS: discovered,
+            CONF_MIN_MUTE_WINDOW: import_config.get(CONF_MIN_MUTE_WINDOW, DEFAULT_MIN_MUTE_WINDOW),
+            CONF_MAX_TIMEOUT: import_config.get(CONF_MAX_TIMEOUT, DEFAULT_MAX_TIMEOUT),
+            CONF_EXTERNAL_TAKEOVER: import_config.get(CONF_EXTERNAL_TAKEOVER, DEFAULT_EXTERNAL_TAKEOVER),
+            CONF_INTERCEPT_JOIN: import_config.get(CONF_INTERCEPT_JOIN, DEFAULT_INTERCEPT_JOIN),
+            CONF_MUTE_METHOD: import_config.get(CONF_MUTE_METHOD, DEFAULT_MUTE_METHOD),
+        }
+        return self.async_create_entry(title="Chime Guard", data=data)
+
     @staticmethod
     @callback
     def async_get_options_flow(
@@ -134,7 +151,6 @@ class ChimeGuardOptionsFlow(config_entries.OptionsFlow):
     ) -> config_entries.ConfigFlowResult:
         """Manage the options."""
         if user_input is not None:
-            # Preserve existing speaker mappings
             current_mappings = self.config_entry.data.get(CONF_SPEAKER_MAPPINGS, {})
             user_input[CONF_SPEAKER_MAPPINGS] = current_mappings
             return self.async_create_entry(title="", data=user_input)

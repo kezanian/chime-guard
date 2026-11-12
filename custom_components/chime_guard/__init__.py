@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
@@ -49,6 +50,21 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
         hass.data["frontend_extra_module_url"].add(script_url_versioned)
 
     _LOGGER.info("Chime Guard frontend module registered at %s", script_url_versioned)
+
+    # Register WebSocket API and services globally
+    async_setup_websocket(hass)
+    async_setup_services(hass)
+
+    # If chime_guard is in configuration.yaml, auto-import config entry if needed
+    if DOMAIN in config:
+        hass.async_create_task(
+            hass.config_entries.flow.async_init(
+                DOMAIN,
+                context={"source": config_entries.SOURCE_IMPORT},
+                data=config[DOMAIN] or {},
+            )
+        )
+
     return True
 
 

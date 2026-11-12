@@ -29,7 +29,10 @@ _LOGGER = logging.getLogger(__name__)
 
 def async_setup_websocket(hass: HomeAssistant) -> None:
     """Register Chime Guard WebSocket commands."""
-    websocket_api.async_register_command(hass, ws_get_config)
+    try:
+        websocket_api.async_register_command(hass, ws_get_config)
+    except Exception:
+        pass
 
 
 @websocket_api.websocket_command(

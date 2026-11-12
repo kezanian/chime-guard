@@ -25,6 +25,8 @@ _LOGGER = logging.getLogger(__name__)
 
 def async_setup_services(hass: HomeAssistant) -> None:
     """Register Chime Guard services."""
+    if hass.services.has_service(DOMAIN, "silent_play"):
+        return
 
     async def handle_silent_play(call: ServiceCall) -> None:
         """Play media on a target speaker while suppressing the connect chime."""
