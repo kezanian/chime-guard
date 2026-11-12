@@ -5,6 +5,7 @@ import logging
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+import homeassistant.helpers.config_validation as cv
 
 from .const import (
     DOMAIN,
@@ -16,6 +17,8 @@ from .services import async_setup_services
 
 _LOGGER = logging.getLogger(__name__)
 
+
+CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     """Set up the Chime Guard integration from yaml (if any)."""
