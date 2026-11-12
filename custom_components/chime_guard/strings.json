@@ -1,0 +1,33 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Chime Guard: Silent Google Cast",
+        "description": "Chime Guard automatically detects Google Cast and Music Assistant speakers to eliminate the connect chime during playback and app handoffs.",
+        "data": {
+          "min_mute_window": "Minimum Mute Duration (ms)",
+          "max_timeout": "Safety Timeout (seconds)",
+          "external_takeover": "Suppress chime on mobile Spotify / external Cast app takeover"
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Only a single configuration of Chime Guard is necessary."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Chime Guard Options",
+        "description": "Fine-tune speaker protection, mute window timings, and handoff behavior.",
+        "data": {
+          "min_mute_window": "Minimum Mute Duration (ms)",
+          "max_timeout": "Safety Timeout (seconds)",
+          "external_takeover": "Suppress chime on mobile Spotify / external Cast takeover",
+          "intercept_join": "Intercept speaker group join actions",
+          "mute_method": "Mute Method"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "domain": "chime_guard",
+  "name": "Chime Guard: Silent Google Cast",
+  "codeowners": [
+    "@kezanian"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/kezanian/chime-guard",
+  "issue_tracker": "https://github.com/kezanian/chime-guard/issues",
+  "iot_class": "local_push",
+  "dependencies": [
+    "frontend",
+    "http",
+    "websocket_api"
+  ],
+  "requirements": [],
+  "version": "1.0.0"
+}

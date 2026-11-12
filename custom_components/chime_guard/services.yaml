@@ -1,0 +1,44 @@
+silent_play:
+  name: Silent Play Media
+  description: Plays media on a speaker while automatically muting and absorbing the Google Cast connection chime.
+  fields:
+    entity_id:
+      name: Target Player
+      description: The media player entity (Music Assistant player or physical Google Cast speaker).
+      required: true
+      selector:
+        entity:
+          domain: media_player
+    media_content_id:
+      name: Content ID / URI
+      description: URI or identifier of the media to play.
+      required: true
+      example: "spotify:track:12345"
+      selector:
+        text:
+    media_content_type:
+      name: Content Type
+      description: Type of content (e.g. music, playlist, tvshow).
+      default: music
+      selector:
+        text:
+play_media:
+  name: Play Media (Chime Guard Alias)
+  description: Drop-in replacement for media_player.play_media with automatic chime suppression.
+  fields:
+    entity_id:
+      name: Target Player
+      required: true
+      selector:
+        entity:
+          domain: media_player
+    media_content_id:
+      name: Content ID / URI
+      required: true
+      selector:
+        text:
+    media_content_type:
+      name: Content Type
+      default: music
+      selector:
+        text:
